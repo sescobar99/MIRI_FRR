@@ -31,6 +31,8 @@ To run the project locally
 
 # Video Demo
 
+[Video Demo](./media/DEMO.mp4)
+
 1. Orbit controls: Left: Rotate. Right: Pan. Scroll: Zoom
 2. Screen: Top left: fps. Top Right: Interactable UI
 3. Explore the model as is.
