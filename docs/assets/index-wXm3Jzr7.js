@@ -4545,7 +4545,7 @@ void main() { \r
 }`;function tf(e){let t=document.createElement(`style`);t.innerHTML=e;let n=document.querySelector(`head link[rel=stylesheet], head style`);n?document.head.insertBefore(t,n):document.head.appendChild(t)}var nf=!1,rf=class e{constructor({parent:e,autoPlace:t=e===void 0,container:n,width:r,title:i=`Controls`,closeFolders:a=!1,injectStyles:o=!0,touchStyles:s=!0}={}){if(this.parent=e,this.root=e?e.root:this,this.children=[],this.controllers=[],this.folders=[],this._closed=!1,this._hidden=!1,this.domElement=document.createElement(`div`),this.domElement.classList.add(`lil-gui`),this.$title=document.createElement(`button`),this.$title.classList.add(`lil-title`),this.$title.setAttribute(`aria-expanded`,!0),this.$title.addEventListener(`click`,()=>this.openAnimated(this._closed)),this.$title.addEventListener(`touchstart`,()=>{},{passive:!0}),this.$children=document.createElement(`div`),this.$children.classList.add(`lil-children`),this.domElement.appendChild(this.$title),this.domElement.appendChild(this.$children),this.title(i),this.parent){this.parent.children.push(this),this.parent.folders.push(this),this.parent.$children.appendChild(this.domElement);return}this.domElement.classList.add(`lil-root`),s&&this.domElement.classList.add(`lil-allow-touch-styles`),!nf&&o&&(tf(ef),nf=!0),n?n.appendChild(this.domElement):t&&(this.domElement.classList.add(`lil-auto-place`,`autoPlace`),document.body.appendChild(this.domElement)),r&&this.domElement.style.setProperty(`--width`,r+`px`),this._closeFolders=a}add(e,t,n,r,i){if(Object(n)===n)return new Qd(this,e,t,n);let a=e[t];switch(typeof a){case`number`:return new Zd(this,e,t,n,r,i);case`boolean`:return new Ud(this,e,t);case`string`:return new $d(this,e,t);case`function`:return new Xd(this,e,t)}console.error(`gui.add failed
 	property:`,t,`
 	object:`,e,`
-	value:`,a)}addColor(e,t,n=1){return new Yd(this,e,t,n)}addFolder(t){let n=new e({parent:this,title:t});return this.root._closeFolders&&n.close(),n}load(e,t=!0){return e.controllers&&this.controllers.forEach(t=>{t instanceof Xd||t._name in e.controllers&&t.load(e.controllers[t._name])}),t&&e.folders&&this.folders.forEach(t=>{t._title in e.folders&&t.load(e.folders[t._title])}),this}save(e=!0){let t={controllers:{},folders:{}};return this.controllers.forEach(e=>{if(!(e instanceof Xd)){if(e._name in t.controllers)throw Error(`Cannot save GUI with duplicate property "${e._name}"`);t.controllers[e._name]=e.save()}}),e&&this.folders.forEach(e=>{if(e._title in t.folders)throw Error(`Cannot save GUI with duplicate folder "${e._title}"`);t.folders[e._title]=e.save()}),t}open(e=!0){return this._setClosed(!e),this.$title.setAttribute(`aria-expanded`,!this._closed),this.domElement.classList.toggle(`lil-closed`,this._closed),this}close(){return this.open(!1)}_setClosed(e){this._closed!==e&&(this._closed=e,this._callOnOpenClose(this))}show(e=!0){return this._hidden=!e,this.domElement.style.display=this._hidden?`none`:``,this}hide(){return this.show(!1)}openAnimated(e=!0){return this._setClosed(!e),this.$title.setAttribute(`aria-expanded`,!this._closed),requestAnimationFrame(()=>{let t=this.$children.clientHeight;this.$children.style.height=t+`px`,this.domElement.classList.add(`lil-transition`);let n=e=>{e.target===this.$children&&(this.$children.style.height=``,this.domElement.classList.remove(`lil-transition`),this.$children.removeEventListener(`transitionend`,n))};this.$children.addEventListener(`transitionend`,n);let r=e?this.$children.scrollHeight:0;this.domElement.classList.toggle(`lil-closed`,!e),requestAnimationFrame(()=>{this.$children.style.height=r+`px`})}),this}title(e){return this._title=e,this.$title.textContent=e,this}reset(e=!0){return(e?this.controllersRecursive():this.controllers).forEach(e=>e.reset()),this}onChange(e){return this._onChange=e,this}_callOnChange(e){this.parent&&this.parent._callOnChange(e),this._onChange!==void 0&&this._onChange.call(this,{object:e.object,property:e.property,value:e.getValue(),controller:e})}onFinishChange(e){return this._onFinishChange=e,this}_callOnFinishChange(e){this.parent&&this.parent._callOnFinishChange(e),this._onFinishChange!==void 0&&this._onFinishChange.call(this,{object:e.object,property:e.property,value:e.getValue(),controller:e})}onOpenClose(e){return this._onOpenClose=e,this}_callOnOpenClose(e){this.parent&&this.parent._callOnOpenClose(e),this._onOpenClose!==void 0&&this._onOpenClose.call(this,e)}destroy(){this.parent&&(this.parent.children.splice(this.parent.children.indexOf(this),1),this.parent.folders.splice(this.parent.folders.indexOf(this),1)),this.domElement.parentElement&&this.domElement.parentElement.removeChild(this.domElement),Array.from(this.children).forEach(e=>e.destroy())}controllersRecursive(){let e=Array.from(this.controllers);return this.folders.forEach(t=>{e=e.concat(t.controllersRecursive())}),e}foldersRecursive(){let e=Array.from(this.folders);return this.folders.forEach(t=>{e=e.concat(t.foldersRecursive())}),e}},af=class{constructor(e){this.params={faceScale:1,heightScale:1,useBinarySearch:!1,showErrorHeatmap:!1,showBoundingWireFrame:!0,resolution:512,showOriginalHighPoly:!1,highPolyX:0,highPolyY:0,highPolyZ:0},this.gui=new rf;let t=this.gui.addFolder(`Sliders`);t.add(this.params,`faceScale`,.1,2,.01).onChange(t=>e.updateCubeScale(t)),t.add(this.params,`heightScale`,0,2,.01).onChange(t=>e.shaderUniforms.uHeightScale.value=t);let n=this.gui.addFolder(`Extensions`);n.add(this.params,`useBinarySearch`).name(`[WIP] useBinarySearch`).onChange(t=>e.shaderUniforms.uUseBinarySearch.value=t),n.add(this.params,`showErrorHeatmap`).name(`[WIP] showErrorHeatmap`).onChange(t=>e.shaderUniforms.uShowErrorHeatmap.value=t);let r=this.gui.addFolder(`Baking Options`);r.add(this.params,`resolution`,[2048,1024,512,256,128,64,32,16,8,4,2,1]),r.add({trigger:()=>e.handleRebake()},`trigger`).name(`Re-bake IBO`);let i=this.gui.addFolder(`High Poly`);i.add(this.params,`showBoundingWireFrame`).onChange(t=>e.toggleWireframe(t)),i.add(this.params,`showOriginalHighPoly`).onChange(t=>e.toggleHighPolyVisibility(t)),i.add(this.params,`highPolyX`,-1,1,.01).name(`Position X`).onChange(t=>e.updateHighPolyPosition(`x`,t)),i.add(this.params,`highPolyY`,-1,1,.01).name(`Position Y`).onChange(t=>e.updateHighPolyPosition(`y`,t)),i.add(this.params,`highPolyZ`,-1,1,.01).name(`Position Z`).onChange(t=>e.updateHighPolyPosition(`z`,t))}},of=c(o(((e,t)=>{(function(n,r){typeof e==`object`&&t!==void 0?t.exports=r():typeof define==`function`&&define.amd?define(r):n.Stats=r()})(e,function(){var e=function(){function t(e){return i.appendChild(e.dom),e}function n(e){for(var t=0;t<i.children.length;t++)i.children[t].style.display=t===e?`block`:`none`;r=e}var r=0,i=document.createElement(`div`);i.style.cssText=`position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000`,i.addEventListener(`click`,function(e){e.preventDefault(),n(++r%i.children.length)},!1);var a=(performance||Date).now(),o=a,s=0,c=t(new e.Panel(`FPS`,`#0ff`,`#002`)),l=t(new e.Panel(`MS`,`#0f0`,`#020`));if(self.performance&&self.performance.memory)var u=t(new e.Panel(`MB`,`#f08`,`#201`));return n(0),{REVISION:16,dom:i,addPanel:t,showPanel:n,begin:function(){a=(performance||Date).now()},end:function(){s++;var e=(performance||Date).now();if(l.update(e-a,200),e>o+1e3&&(c.update(1e3*s/(e-o),100),o=e,s=0,u)){var t=performance.memory;u.update(t.usedJSHeapSize/1048576,t.jsHeapSizeLimit/1048576)}return e},update:function(){a=this.end()},domElement:i,setMode:n}};return e.Panel=function(e,t,n){var r=1/0,i=0,a=Math.round,o=a(window.devicePixelRatio||1),s=80*o,c=48*o,l=3*o,u=2*o,d=3*o,f=15*o,p=74*o,m=30*o,h=document.createElement(`canvas`);h.width=s,h.height=c,h.style.cssText=`width:80px;height:48px`;var g=h.getContext(`2d`);return g.font=`bold `+9*o+`px Helvetica,Arial,sans-serif`,g.textBaseline=`top`,g.fillStyle=n,g.fillRect(0,0,s,c),g.fillStyle=t,g.fillText(e,l,u),g.fillRect(d,f,p,m),g.fillStyle=n,g.globalAlpha=.9,g.fillRect(d,f,p,m),{dom:h,update:function(c,_){r=Math.min(r,c),i=Math.max(i,c),g.fillStyle=n,g.globalAlpha=1,g.fillRect(0,0,s,f),g.fillStyle=t,g.fillText(a(c)+` `+e+` (`+a(r)+`-`+a(i)+`)`,l,u),g.drawImage(h,d+o,f,p-o,m,d,f,p-o,m),g.fillRect(d+p-o,f,o,m),g.fillStyle=n,g.globalAlpha=.9,g.fillRect(d+p-o,f,o,a((1-c/_)*m))}}},e})}))(),1),sf=`// All of the following things are automatically provided by Three.js under GLSL3 mode\r
+	value:`,a)}addColor(e,t,n=1){return new Yd(this,e,t,n)}addFolder(t){let n=new e({parent:this,title:t});return this.root._closeFolders&&n.close(),n}load(e,t=!0){return e.controllers&&this.controllers.forEach(t=>{t instanceof Xd||t._name in e.controllers&&t.load(e.controllers[t._name])}),t&&e.folders&&this.folders.forEach(t=>{t._title in e.folders&&t.load(e.folders[t._title])}),this}save(e=!0){let t={controllers:{},folders:{}};return this.controllers.forEach(e=>{if(!(e instanceof Xd)){if(e._name in t.controllers)throw Error(`Cannot save GUI with duplicate property "${e._name}"`);t.controllers[e._name]=e.save()}}),e&&this.folders.forEach(e=>{if(e._title in t.folders)throw Error(`Cannot save GUI with duplicate folder "${e._title}"`);t.folders[e._title]=e.save()}),t}open(e=!0){return this._setClosed(!e),this.$title.setAttribute(`aria-expanded`,!this._closed),this.domElement.classList.toggle(`lil-closed`,this._closed),this}close(){return this.open(!1)}_setClosed(e){this._closed!==e&&(this._closed=e,this._callOnOpenClose(this))}show(e=!0){return this._hidden=!e,this.domElement.style.display=this._hidden?`none`:``,this}hide(){return this.show(!1)}openAnimated(e=!0){return this._setClosed(!e),this.$title.setAttribute(`aria-expanded`,!this._closed),requestAnimationFrame(()=>{let t=this.$children.clientHeight;this.$children.style.height=t+`px`,this.domElement.classList.add(`lil-transition`);let n=e=>{e.target===this.$children&&(this.$children.style.height=``,this.domElement.classList.remove(`lil-transition`),this.$children.removeEventListener(`transitionend`,n))};this.$children.addEventListener(`transitionend`,n);let r=e?this.$children.scrollHeight:0;this.domElement.classList.toggle(`lil-closed`,!e),requestAnimationFrame(()=>{this.$children.style.height=r+`px`})}),this}title(e){return this._title=e,this.$title.textContent=e,this}reset(e=!0){return(e?this.controllersRecursive():this.controllers).forEach(e=>e.reset()),this}onChange(e){return this._onChange=e,this}_callOnChange(e){this.parent&&this.parent._callOnChange(e),this._onChange!==void 0&&this._onChange.call(this,{object:e.object,property:e.property,value:e.getValue(),controller:e})}onFinishChange(e){return this._onFinishChange=e,this}_callOnFinishChange(e){this.parent&&this.parent._callOnFinishChange(e),this._onFinishChange!==void 0&&this._onFinishChange.call(this,{object:e.object,property:e.property,value:e.getValue(),controller:e})}onOpenClose(e){return this._onOpenClose=e,this}_callOnOpenClose(e){this.parent&&this.parent._callOnOpenClose(e),this._onOpenClose!==void 0&&this._onOpenClose.call(this,e)}destroy(){this.parent&&(this.parent.children.splice(this.parent.children.indexOf(this),1),this.parent.folders.splice(this.parent.folders.indexOf(this),1)),this.domElement.parentElement&&this.domElement.parentElement.removeChild(this.domElement),Array.from(this.children).forEach(e=>e.destroy())}controllersRecursive(){let e=Array.from(this.controllers);return this.folders.forEach(t=>{e=e.concat(t.controllersRecursive())}),e}foldersRecursive(){let e=Array.from(this.folders);return this.folders.forEach(t=>{e=e.concat(t.foldersRecursive())}),e}},af=class{constructor(e){this.params={faceScale:1,heightScale:1,useBinarySearch:!1,showErrorHeatmap:!1,showBoundingWireFrame:!0,resolution:2048,showOriginalHighPoly:!1,highPolyX:0,highPolyY:0,highPolyZ:0},this.gui=new rf;let t=this.gui.addFolder(`Sliders`);t.add(this.params,`faceScale`,.1,2,.01).onChange(t=>e.updateCubeScale(t)),t.add(this.params,`heightScale`,0,2,.01).onChange(t=>e.shaderUniforms.uHeightScale.value=t);let n=this.gui.addFolder(`Extensions`);n.add(this.params,`useBinarySearch`).onChange(t=>e.shaderUniforms.uUseBinarySearch.value=t),n.add(this.params,`showErrorHeatmap`).onChange(t=>e.shaderUniforms.uShowErrorHeatmap.value=t);let r=this.gui.addFolder(`Baking Options`);r.add(this.params,`resolution`,[2048,1024,512,256,128,64,32,16,8,4,2,1]),r.add({trigger:()=>e.handleRebake()},`trigger`).name(`Re-bake IBO`);let i=this.gui.addFolder(`High Poly`);i.add(this.params,`showBoundingWireFrame`).onChange(t=>e.toggleWireframe(t)),i.add(this.params,`showOriginalHighPoly`).onChange(t=>e.toggleHighPolyVisibility(t)),i.add(this.params,`highPolyX`,-1,1,.01).name(`Position X`).onChange(t=>e.updateHighPolyPosition(`x`,t)),i.add(this.params,`highPolyY`,-1,1,.01).name(`Position Y`).onChange(t=>e.updateHighPolyPosition(`y`,t)),i.add(this.params,`highPolyZ`,-1,1,.01).name(`Position Z`).onChange(t=>e.updateHighPolyPosition(`z`,t))}},of=c(o(((e,t)=>{(function(n,r){typeof e==`object`&&t!==void 0?t.exports=r():typeof define==`function`&&define.amd?define(r):n.Stats=r()})(e,function(){var e=function(){function t(e){return i.appendChild(e.dom),e}function n(e){for(var t=0;t<i.children.length;t++)i.children[t].style.display=t===e?`block`:`none`;r=e}var r=0,i=document.createElement(`div`);i.style.cssText=`position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000`,i.addEventListener(`click`,function(e){e.preventDefault(),n(++r%i.children.length)},!1);var a=(performance||Date).now(),o=a,s=0,c=t(new e.Panel(`FPS`,`#0ff`,`#002`)),l=t(new e.Panel(`MS`,`#0f0`,`#020`));if(self.performance&&self.performance.memory)var u=t(new e.Panel(`MB`,`#f08`,`#201`));return n(0),{REVISION:16,dom:i,addPanel:t,showPanel:n,begin:function(){a=(performance||Date).now()},end:function(){s++;var e=(performance||Date).now();if(l.update(e-a,200),e>o+1e3&&(c.update(1e3*s/(e-o),100),o=e,s=0,u)){var t=performance.memory;u.update(t.usedJSHeapSize/1048576,t.jsHeapSizeLimit/1048576)}return e},update:function(){a=this.end()},domElement:i,setMode:n}};return e.Panel=function(e,t,n){var r=1/0,i=0,a=Math.round,o=a(window.devicePixelRatio||1),s=80*o,c=48*o,l=3*o,u=2*o,d=3*o,f=15*o,p=74*o,m=30*o,h=document.createElement(`canvas`);h.width=s,h.height=c,h.style.cssText=`width:80px;height:48px`;var g=h.getContext(`2d`);return g.font=`bold `+9*o+`px Helvetica,Arial,sans-serif`,g.textBaseline=`top`,g.fillStyle=n,g.fillRect(0,0,s,c),g.fillStyle=t,g.fillText(e,l,u),g.fillRect(d,f,p,m),g.fillStyle=n,g.globalAlpha=.9,g.fillRect(d,f,p,m),{dom:h,update:function(c,_){r=Math.min(r,c),i=Math.max(i,c),g.fillStyle=n,g.globalAlpha=1,g.fillRect(0,0,s,f),g.fillStyle=t,g.fillText(a(c)+` `+e+` (`+a(r)+`-`+a(i)+`)`,l,u),g.drawImage(h,d+o,f,p-o,m,d,f,p-o,m),g.fillRect(d+p-o,f,o,m),g.fillStyle=n,g.globalAlpha=.9,g.fillRect(d+p-o,f,o,a((1-c/_)*m))}}},e})}))(),1),sf=`// All of the following things are automatically provided by Three.js under GLSL3 mode\r
 // #version 300 es\r
 // in vec3 position;\r
 // uniform mat4 modelViewMatrix;\r
@@ -4581,11 +4581,19 @@ out vec4 fragColor;\r
 uniform float uHeightScale;\r
 uniform bool uUseBinarySearch;\r
 uniform bool uShowErrorHeatmap;\r
+// Light\r
+uniform float uAmbientLight;\r
 // Calculated on render loop\r
 uniform vec3 uLocalCameraPos;\r
 // Baked textures\r
 uniform sampler2D uDataMaps[6];\r
 uniform sampler2D uAlbedoMaps[6];\r
+\r
+// Linear ray marching\r
+// Policarpo 2005 mentioned 32 steps.GPU gems' cone stepping used 15.\r
+#define NUM_LINEAR_STEPS 32.0\r
+// Binary search - 8 as stated by Policarpo \r
+#define NUM_BINARY_STEPS 8.0\r
 \r
 // Helper functions to sample the correct face // Order: [ +X, -X, +Y, -Y, +Z, -Z ]\r
 vec4 sampleData(vec2 uv, int face) {\r
@@ -4623,12 +4631,12 @@ void main() {\r
     // B (perpendicular to both).\r
     // mat3 column order = TBN // Hardcoded/Indexed as cube is a simple case\r
     mat3 tangentSpaces[6] = mat3[](\r
-        mat3(vec3(0, 0, -1), vec3(0, 1, 0),  vec3(-1, 0, 0)), // 0: +X\r
-        mat3(vec3(0, 0, 1),  vec3(0, 1, 0),  vec3(1, 0, 0)),  // 1: -X\r
-        mat3(vec3(1, 0, 0),  vec3(0, 0, -1), vec3(0, -1, 0)), // 2: +Y\r
-        mat3(vec3(1, 0, 0),  vec3(0, 0, 1),  vec3(0, 1, 0)),  // 3: -Y\r
-        mat3(vec3(1, 0, 0),  vec3(0, 1, 0),  vec3(0, 0, -1)), // 4: +Z\r
-        mat3(vec3(-1, 0, 0), vec3(0, 1, 0),  vec3(0, 0, 1))   // 5: -Z\r
+        mat3(vec3(0, 0, -1), vec3(0, 1, 0), vec3(-1, 0, 0)), // 0: +X\r
+        mat3(vec3(0, 0, 1), vec3(0, 1, 0), vec3(1, 0, 0)),  // 1: -X\r
+        mat3(vec3(1, 0, 0), vec3(0, 0, -1), vec3(0, -1, 0)), // 2: +Y\r
+        mat3(vec3(1, 0, 0), vec3(0, 0, 1), vec3(0, 1, 0)),  // 3: -Y\r
+        mat3(vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, -1)), // 4: +Z\r
+        mat3(vec3(-1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1))   // 5: -Z\r
     );\r
 \r
     // Determine proper TBN. (Normals should be axis aligned for the cube case)\r
@@ -4647,194 +4655,125 @@ void main() {\r
 \r
     // Having a local coordinate frame -> make operation coherent (all use the same space) -> use it\r
     // -------------------------------------\r
-    // 2. Setup ray in Tangent Space\r
+    // 2. Setup ray in Tangent Space and prepare ray marching\r
 \r
-    vec3 viewDir = vLocalPos - uLocalCameraPos;\r
-    vec3 vLocalDir = normalize(viewDir);\r
     // Camera to fragment direction in local frame\r
+    vec3 localViewDir = normalize(vLocalPos - uLocalCameraPos);\r
 \r
+    // x <-> T <-> u\r
+    // y <-> B <-> v\r
+    // z <-> N <-> depth\r
     vec3 rayDirTS;\r
-    rayDirTS.x = dot(vLocalDir, T);\r
-    rayDirTS.y = dot(vLocalDir, B);\r
-    rayDirTS.z = dot(vLocalDir, N);\r
+    rayDirTS.x = dot(localViewDir, T);\r
+    rayDirTS.y = dot(localViewDir, B);\r
+    rayDirTS.z = dot(localViewDir, N);\r
+    //ray in tangent space\r
     rayDirTS = normalize(rayDirTS);\r
+    // fragColor = vec4(rayDirTS, 1.0);\r
+    // fragColor = vec4(rayDirTS.zzz, 1.0);\r
 \r
+    // Discard rays nearly parallel\r
+    if(rayDirTS.z <= 0.001) {\r
+        discard; //Abandon operation of the current fragment\r
+    }\r
 \r
-    // Discard (abandon operation of the current fragment) rays looking away from the surface \r
-    if(rayDirTS.z <= 0.001)\r
-        discard;\r
-\r
-    // Start position in (u, v, depth) space [0.0 to 1.0]\r
+    // Start position in (u, v, depth) space [0.0 to 1.0] (shifted from -0.5, 0.5)\r
+    // Represents where the ray starts its path wrt the face (uv)\r
     vec2 startUV = vec2(dot(vLocalPos, T), dot(vLocalPos, B)) + 0.5;\r
-    vec3 p = vec3(startUV, 0.0);\r
+    // Current Ray Position\r
+    vec3 crp = vec3(startUV, 0.0);\r
+    // fragColor = vec4(crp, 1.0);\r
+    // green\r
+    // |v   /depth\r
+    // |   /\r
+    // |  /\r
+    // * ______u\r
+    // black   red\r
+    // rgb\r
 \r
-    // Normalize step direction relative to the depth (Z) mapping\r
+    // Relative movement wrt depth. Depth normalization \r
     vec3 stepDir = rayDirTS / rayDirTS.z;\r
+    // vec3 stepDir = rayDirTS / max(rayDirTS.z, 0.001);\r
 \r
-    const float numLinearSteps = 100.0;\r
-    // delta represents a single step. We scale by uHeightScale as the max volume depth\r
-    vec3 delta = stepDir * (uHeightScale / numLinearSteps);\r
+    // delta is the movement of a single step. Scale using uHeightScale as the max volume depth\r
+    vec3 delta = stepDir * (uHeightScale / NUM_LINEAR_STEPS);\r
 \r
     bool hit = false;\r
-    float mapDepth = 0.0;\r
+    float sampledDepth = 0.0;\r
     float stepsTaken = 0.0;\r
 \r
+    // -------------------------------------\r
     // 3. Linear Search\r
-    for(float i = 0.0; i < numLinearSteps; i++) {\r
-        p += delta;\r
+    // Ray marching with fixed number of steps\r
+    for(float i = 0.0; i < NUM_LINEAR_STEPS; i++) {\r
+        crp += delta;\r
         stepsTaken += 1.0;\r
-\r
         // Stop if the ray escapes the bounding box boundaries\r
-        if(p.x < 0.0 || p.x > 1.0 || p.y < 0.0 || p.y > 1.0 || p.z > uHeightScale) {\r
+        if(crp.x < 0.0 || crp.x > 1.0 || crp.y < 0.0 || crp.y > 1.0 || crp.z > uHeightScale) {\r
             break;\r
         }\r
-\r
-        mapDepth = sampleData(p.xy, faceIndex).w;\r
-\r
-        // Intersection condition: Current ray depth is greater than baked heightfield depth\r
-        if(p.z >= mapDepth * uHeightScale) {\r
+        // data has normal +  depth (rgba) (xyz, depth)\r
+        sampledDepth = sampleData(crp.xy, faceIndex).a;\r
+        // Intersection condition: check if ray's depth is already inside fake geometry (scaled \r
+        // sampled depth). \r
+        if(crp.z >= (sampledDepth * uHeightScale)) {\r
             hit = true;\r
             break;\r
         }\r
     }\r
 \r
-    // If no intersection was found, or we hit the background (depth ~1.0), discard fragment\r
-    if(!hit || mapDepth >= 0.999) {\r
+    // If no intersection found, or background hit (depth ~1.0) -> discard fragment\r
+    if(!hit || sampledDepth >= 0.999) {\r
         discard;\r
     }\r
-\r
-\r
+    // Otherwise, crp represents the first point where the ray is inside (or on top) of the fake geometry\r
 \r
     // -------------------------------------\r
     // Extensions\r
-    // // 4. Binary Search (Refinement)\r
-    // if(uUseBinarySearch && hit) {\r
-    //     p -= delta; // Step back to the last position safely above the surface\r
-    //     vec3 halfDelta = delta * 0.5;\r
 \r
-    //     // 8 passes is standard for binary search refinement in relief mapping\r
-    //     for(int i = 0; i < 8; i++) {\r
-    //         p += halfDelta;\r
-    //         stepsTaken += 1.0;\r
+    // Binary Search\r
+    if(uUseBinarySearch) {\r
+        // "un-march" to the previous step (before hitting the surface)\r
+        crp -= delta;\r
+        vec3 halfDelta = delta * 0.5;\r
 \r
-    //         mapDepth = sampleData(p.xy, faceIndex).w;\r
+        // Go back and forth halving delta\r
+        for(float i = 0.0; i < NUM_BINARY_STEPS; i++) {\r
+            crp += halfDelta;\r
+            stepsTaken += 1.0;\r
+            sampledDepth = sampleData(crp.xy, faceIndex).a;\r
+            if(crp.z >= (sampledDepth * uHeightScale)) {\r
+                crp -= halfDelta; // Overstepped, go back\r
+            }\r
+            halfDelta *= 0.5; // Halve\r
+        }\r
+    }\r
 \r
-    //         if(p.z >= mapDepth * uHeightScale) {\r
-    //             p -= halfDelta; // Overstepped, go back\r
-    //         }\r
-    //         halfDelta *= 0.5; // Halve the search window\r
-    //     }\r
-    // }\r
+    // Error heatmap\r
+    // How many steps of the possible does the algorithm takes to find \r
+    if(uShowErrorHeatmap) {\r
+        // Normalize steps taken against maximum possible steps (Linear + Binary if active)\r
+        float binarySteps = uUseBinarySearch ? NUM_BINARY_STEPS : 0.0;\r
+        float maxSteps = NUM_LINEAR_STEPS + binarySteps;\r
+        float error_per = stepsTaken / maxSteps;\r
+        // Go from green to red depending on the value of the error (green few steps)\r
+        fragColor = vec4(mix(vec3(0.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0), error_per), 1.0);\r
+        return;\r
+    }\r
 \r
-    // // 5. Illustration & Measurement of Error (Heatmap)\r
-    // if(uShowErrorHeatmap) {\r
-    //     // Normalize steps taken against maximum possible steps (Linear + Binary)\r
-    //     float maxSteps = numLinearSteps + 8.0;\r
-    //     float t = stepsTaken / maxSteps;\r
+    // -------------------------------------\r
+    // 4. Shading\r
 \r
-    //     // Green (few steps) to Red (many steps)\r
-    //     fragColor = vec4(mix(vec3(0.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0), t), 1.0);\r
-    //     return;\r
-    // }\r
+    // Get colors and normal corresponding to the ray's uv position\r
+    vec4 sampledAlbedo = sampleAlbedo(crp.xy, faceIndex);\r
+    // Normal: [0, 1] back to [-1, 1]\r
+    vec3 sampledNormal = sampleData(crp.xy, faceIndex).rgb;\r
+    sampledNormal = normalize((2.0 * sampledNormal) - 1.0); //  Convert and Sanity normalization\r
 \r
-    // 4. Final Shading\r
-    vec4 albedo = sampleAlbedo(p.xy, faceIndex);\r
-\r
-    // Unpack local normal: [0, 1] back to [-1, 1]\r
-    vec3 localNorm = normalize(sampleData(p.xy, faceIndex).xyz * 2.0 - 1.0);\r
-\r
-    // Very basic hardcoded directional light + ambient to visualize the bumps\r
-    vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));\r
-    float ambient = 0.2;\r
-    float diffuse = max(dot(localNorm, lightDir), 0.0);\r
-\r
-    fragColor = vec4(albedo.rgb * (diffuse + ambient), albedo.a);\r
+      // Simple light to visualize the bumps\r
+    float diff = max(dot(sampledNormal, normalize(uLocalCameraPos)), 0.0);\r
+    vec3 diffuse = diff * vec3(0.8); //Almost white light\r
+    // No specular for now\r
+    fragColor = vec4(sampledAlbedo.rgb * (uAmbientLight + diffuse), sampledAlbedo.a);\r
 }\r
-// out vec4 fragColor;\r
-\r
-// // Helper function to sample data maps safely using compile-time constants\r
-// vec4 sampleDataMap(int faceIdx, vec2 uv) {\r
-//     switch(faceIdx) {\r
-//         case 0:\r
-//             return texture(uDataMaps[0], uv);\r
-//         case 1:\r
-//             return texture(uDataMaps[1], uv);\r
-//         case 2:\r
-//             return texture(uDataMaps[2], uv);\r
-//         case 3:\r
-//             return texture(uDataMaps[3], uv);\r
-//         case 4:\r
-//             return texture(uDataMaps[4], uv);\r
-//         case 5:\r
-//             return texture(uDataMaps[5], uv);\r
-//     }\r
-//     return vec4(0.0);\r
-// }\r
-\r
-//     // Volumetric Linear Search\r
-//     const int numSteps = 60;\r
-//     float stepSize = 1.0 / float(numSteps);\r
-\r
-//     float rayDepth = 0.0;\r
-//     vec2 hitUv = vUv;\r
-//     bool intersected = false;\r
-\r
-//     for (int i = 0; i < numSteps; i++) {\r
-//         vec2 currentUv = vUv + rayDepth * uvStride * uHeightScale;\r
-\r
-//         // Clip exploration loop if ray steps out of bounds\r
-//         if (currentUv.x < 0.0 || currentUv.x > 1.0 || currentUv.y < 0.0 || currentUv.y > 1.0) {\r
-//             break;\r
-//         }\r
-\r
-//         float surfaceDepth = sampleDataMap(faceIdx, currentUv).w;\r
-\r
-//         if (rayDepth >= surfaceDepth) {\r
-//             hitUv = currentUv;\r
-//             intersected = true;\r
-//             break;\r
-//         }\r
-\r
-//         rayDepth += stepSize;\r
-//     }\r
-\r
-//     // Silhouette Clipping\r
-//     if (!intersected) {\r
-//         discard;\r
-//     }\r
-\r
-//     float finalDepthCheck = sampleDataMap(faceIdx, hitUv).w;\r
-//     if (finalDepthCheck >= 0.999) {\r
-//         discard;\r
-//     }\r
-\r
-//     // Base Color Output Execution\r
-//     vec3 finalColor = sampleAlbedoMap(faceIdx, hitUv).rgb;\r
-\r
-//     // Debug Modes\r
-//     if(uUseBinarySearch) {\r
-//         finalColor = vec3(1.0, 0.0, 0.0);\r
-//     } else if(uShowErrorHeatmap) {\r
-//         finalColor = vec3(0.0, 1.0, 0.0);\r
-//     }\r
-\r
-//     fragColor = vec4(finalColor, 1.0);\r
-// }\r
-//     // // 1. Calculate the normalized ray direction in local space\r
-//     // vec3 rayDirection = normalize(vLocalPos - uLocalCameraPos);\r
-\r
-//     // // 2. Determine which face the ray entered through (your current logic)\r
-//     // vec4 albedoColor = vec4(0.0);\r
-//     // if (vLocalNormal.x > 0.5)  { albedoColor = texture(uAlbedoPosX, vUv); }\r
-//     // else if (vLocalNormal.x < -0.5) { albedoColor = texture(uAlbedoNegX, vUv); }\r
-//     // else if (vLocalNormal.y > 0.5)  { albedoColor = texture(uAlbedoPosY, vUv); }\r
-//     // else if (vLocalNormal.y < -0.5) { albedoColor = texture(uAlbedoNegY, vUv); }\r
-//     // else if (vLocalNormal.z > 0.5)  { albedoColor = texture(uAlbedoPosZ, vUv); }\r
-//     // else if (vLocalNormal.z < -0.5) { albedoColor = texture(uAlbedoNegZ, vUv); }\r
-\r
-//     // // Baseline visual check: Let's output the ray direction as a color \r
-//     // // to confirm our local vector space calculations match perfectly!\r
-//     // vec3 debugRayColor = rayDirection * 0.5 + 0.5;\r
-\r
-//     // fragColor = vec4(debugRayColor, 1.0);\r
-`;new class{constructor(){this.scene=new Wn;let e=window.innerWidth/window.innerHeight;this.camera=new xo(40,e,.1,50),this.camera.position.set(2,2,2),this.renderer=new mu({antialias:!0}),this.renderer.setSize(window.innerWidth,window.innerHeight),document.body.appendChild(this.renderer.domElement),this.controls=new wu(this.camera,this.renderer.domElement),this.ui=new af(this),this.stats=new of.default,document.body.appendChild(this.stats.dom),window.addEventListener(`resize`,()=>this.onResize()),this.init()}async init(){await this.loadModel(),this.createScene(),this.bakeReliefMaps(this.ui.params.resolution,!1),this.scene.add(this.highPolyMesh),this.highPolyMesh.visible=this.ui.params.showOriginalHighPoly,this.start()}createScene(){this.shaderUniforms={uHeightScale:{value:this.ui.params.heightScale},uUseBinarySearch:{value:this.ui.params.useBinarySearch},uShowErrorHeatmap:{value:this.ui.params.showErrorHeatmap},uDataMaps:{value:[null,null,null,null,null,null]},uAlbedoMaps:{value:[null,null,null,null,null,null]},uLocalCameraPos:{value:new G}},this.reliefMaterial=new Ea({vertexShader:sf,fragmentShader:cf,uniforms:this.shaderUniforms,glslVersion:tt}),this.cube=new ui(new ga(1,1,1),this.reliefMaterial),this.wireFrameMaterial=new Qr({color:new Y(16777215),wireframe:!0,visible:this.ui.params.showBoundingWireFrame}),this.wireCube=new ui(new ga(1,1,1),this.wireFrameMaterial),this.scene.add(this.cube),this.scene.add(this.wireCube),this.updateCubeScale(this.ui.params.faceScale),this.scene.add(new ko(16777215,.1)),this.dirLight=new Oo(16777215,2),this.dirLight.target.position.set(0,0,0),this.scene.add(this.dirLight),this.scene.add(this.dirLight.target)}animate(){if(requestAnimationFrame(()=>this.animate()),this.cube){this.cube.updateMatrixWorld();let e=this.cube.matrixWorld.clone().invert(),t=this.camera.position.clone().applyMatrix4(e);this.shaderUniforms.uLocalCameraPos.value.copy(t)}this.renderer.render(this.scene,this.camera),this.stats.update(),this.dirLight.position.copy(this.camera.position)}async loadModel(){let e=new Bu;return new Promise((t,n)=>{e.load(`./suzanne_base_colored.glb`,e=>{this.highPolyMesh=e.scene.children[0];let n=new ar().setFromObject(this.highPolyMesh),r=new G;n.getSize(r);let i=1/Math.max(r.x,r.y,r.z);this.highPolyMesh.scale.setScalar(i),n.setFromObject(this.highPolyMesh);let a=new G;n.getCenter(a),this.highPolyMesh.position.sub(a),t()},void 0,e=>n(e))})}start(){this.animate()}bakeReliefMaps(e=512,t=!1){this.bakedTextures&&(Object.values(this.bakedTextures.data).forEach(e=>{e&&e.dispose()}),Object.values(this.bakedTextures.albedo).forEach(e=>{e&&e.dispose()}));let n=new Vd(this.renderer,e),r=this.highPolyMesh.position.clone();this.highPolyMesh.position.set(0,0,0);let i=this.highPolyMesh.visible;this.highPolyMesh.visible=!0,this.bakedTextures=n.bake(this.highPolyMesh),this.highPolyMesh.position.copy(r),this.highPolyMesh.visible=i,this.shaderUniforms.uDataMaps.value=[this.bakedTextures.data.posX,this.bakedTextures.data.negX,this.bakedTextures.data.posY,this.bakedTextures.data.negY,this.bakedTextures.data.posZ,this.bakedTextures.data.negZ],this.shaderUniforms.uAlbedoMaps.value=[this.bakedTextures.albedo.posX,this.bakedTextures.albedo.negX,this.bakedTextures.albedo.posY,this.bakedTextures.albedo.negY,this.bakedTextures.albedo.posZ,this.bakedTextures.albedo.negZ],t&&this.setupVisualDebug(!0)}updateCubeScale(e){this.cube.scale.setScalar(e),this.wireCube.scale.setScalar(e*1.001)}toggleWireframe(e){this.wireFrameMaterial.visible=e}toggleHighPolyVisibility(e){this.highPolyMesh.visible=e}updateHighPolyPosition(e,t){this.highPolyMesh.position[e]=t}handleRebake(){let e=this.ui.params.resolution;console.log(`Rebaking textures at: ${e}px`),this.bakeReliefMaps(e)}onResize(){this.camera.aspect=window.innerWidth/window.innerHeight,this.camera.updateProjectionMatrix(),this.renderer.setSize(window.innerWidth,window.innerHeight)}setupVisualDebug(e=!1){e?this.debugMaterials=[new Qr({map:this.bakedTextures.data.posX}),new Qr({map:this.bakedTextures.data.negX}),new Qr({map:this.bakedTextures.data.posY}),new Qr({map:this.bakedTextures.data.negY}),new Qr({map:this.bakedTextures.data.posZ}),new Qr({map:this.bakedTextures.data.negZ})]:this.debugMaterials=[new Qr({map:this.bakedTextures.albedo.posX}),new Qr({map:this.bakedTextures.albedo.negX}),new Qr({map:this.bakedTextures.albedo.posY}),new Qr({map:this.bakedTextures.albedo.negY}),new Qr({map:this.bakedTextures.albedo.posZ}),new Qr({map:this.bakedTextures.albedo.negZ})],this.cube.material=this.debugMaterials}};
+`;new class{constructor(){this.scene=new Wn;let e=window.innerWidth/window.innerHeight;this.camera=new xo(40,e,.1,50),this.camera.position.set(2,2,3),this.renderer=new mu({antialias:!0}),this.renderer.setSize(window.innerWidth,window.innerHeight),document.body.appendChild(this.renderer.domElement),this.controls=new wu(this.camera,this.renderer.domElement),this.ui=new af(this),this.stats=new of.default,document.body.appendChild(this.stats.dom),window.addEventListener(`resize`,()=>this.onResize()),this.init()}async init(){await this.loadModel(),this.createScene(),this.bakeReliefMaps(this.ui.params.resolution,!1),this.scene.add(this.highPolyMesh),this.highPolyMesh.visible=this.ui.params.showOriginalHighPoly,this.start()}createScene(){this.shaderUniforms={uHeightScale:{value:this.ui.params.heightScale},uUseBinarySearch:{value:this.ui.params.useBinarySearch},uShowErrorHeatmap:{value:this.ui.params.showErrorHeatmap},uDataMaps:{value:[null,null,null,null,null,null]},uAlbedoMaps:{value:[null,null,null,null,null,null]},uLocalCameraPos:{value:new G},uAmbientLight:{value:.1}},this.reliefMaterial=new Ea({vertexShader:sf,fragmentShader:cf,uniforms:this.shaderUniforms,glslVersion:tt}),this.cube=new ui(new ga(1,1,1),this.reliefMaterial),this.wireFrameMaterial=new Qr({color:new Y(16777215),wireframe:!0,visible:this.ui.params.showBoundingWireFrame}),this.wireCube=new ui(new ga(1,1,1),this.wireFrameMaterial),this.scene.add(this.cube),this.scene.add(this.wireCube),this.updateCubeScale(this.ui.params.faceScale),this.scene.add(new ko(16777215,this.shaderUniforms.uAmbientLight.value)),this.dirLight=new Oo(16777215,2),this.dirLight.target.position.set(0,0,0),this.scene.add(this.dirLight),this.scene.add(this.dirLight.target)}animate(){if(requestAnimationFrame(()=>this.animate()),this.cube){this.cube.updateMatrixWorld();let e=this.cube.matrixWorld.clone().invert(),t=this.camera.position.clone().applyMatrix4(e);this.shaderUniforms.uLocalCameraPos.value.copy(t)}this.renderer.render(this.scene,this.camera),this.stats.update(),this.dirLight.position.copy(this.camera.position)}async loadModel(){let e=new Bu;return new Promise((t,n)=>{e.load(`./suzanne_base_colored.glb`,e=>{this.highPolyMesh=e.scene.children[0];let n=new ar().setFromObject(this.highPolyMesh),r=new G;n.getSize(r);let i=1/Math.max(r.x,r.y,r.z);this.highPolyMesh.scale.setScalar(i),n.setFromObject(this.highPolyMesh);let a=new G;n.getCenter(a),this.highPolyMesh.position.sub(a),t()},void 0,e=>n(e))})}start(){this.animate()}bakeReliefMaps(e=512,t=!1){this.bakedTextures&&(Object.values(this.bakedTextures.data).forEach(e=>{e&&e.dispose()}),Object.values(this.bakedTextures.albedo).forEach(e=>{e&&e.dispose()}));let n=new Vd(this.renderer,e),r=this.highPolyMesh.position.clone();this.highPolyMesh.position.set(0,0,0);let i=this.highPolyMesh.visible;this.highPolyMesh.visible=!0,this.bakedTextures=n.bake(this.highPolyMesh),this.highPolyMesh.position.copy(r),this.highPolyMesh.visible=i,this.shaderUniforms.uDataMaps.value=[this.bakedTextures.data.posX,this.bakedTextures.data.negX,this.bakedTextures.data.posY,this.bakedTextures.data.negY,this.bakedTextures.data.posZ,this.bakedTextures.data.negZ],this.shaderUniforms.uAlbedoMaps.value=[this.bakedTextures.albedo.posX,this.bakedTextures.albedo.negX,this.bakedTextures.albedo.posY,this.bakedTextures.albedo.negY,this.bakedTextures.albedo.posZ,this.bakedTextures.albedo.negZ],t&&this.setupVisualDebug(!1)}updateCubeScale(e){this.cube.scale.setScalar(e),this.wireCube.scale.setScalar(e*1.001)}toggleWireframe(e){this.wireFrameMaterial.visible=e}toggleHighPolyVisibility(e){this.highPolyMesh.visible=e}updateHighPolyPosition(e,t){this.highPolyMesh.position[e]=t}handleRebake(){let e=this.ui.params.resolution;console.log(`Rebaking textures at: ${e}px`),this.bakeReliefMaps(e)}onResize(){this.camera.aspect=window.innerWidth/window.innerHeight,this.camera.updateProjectionMatrix(),this.renderer.setSize(window.innerWidth,window.innerHeight)}setupVisualDebug(e=!1){e?this.debugMaterials=[new Qr({map:this.bakedTextures.data.posX}),new Qr({map:this.bakedTextures.data.negX}),new Qr({map:this.bakedTextures.data.posY}),new Qr({map:this.bakedTextures.data.negY}),new Qr({map:this.bakedTextures.data.posZ}),new Qr({map:this.bakedTextures.data.negZ})]:this.debugMaterials=[new Qr({map:this.bakedTextures.albedo.posX}),new Qr({map:this.bakedTextures.albedo.negX}),new Qr({map:this.bakedTextures.albedo.posY}),new Qr({map:this.bakedTextures.albedo.negY}),new Qr({map:this.bakedTextures.albedo.posZ}),new Qr({map:this.bakedTextures.albedo.negZ})],this.cube.material=this.debugMaterials}};
